@@ -1,515 +1,758 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joyeux Anniversaire Kimee !</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <title>Kimee's 10th Birthday Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --pink-main: #ff75a0;
-            --pink-light: #ffb3c6;
-            --purple: #b388ff;
-            --yellow: #ffd600;
-            --dark: #2c2c54;
+            --bg-color: #0f0c1b;
+            --accent-color: #ff5277;
+            --accent-rgb: 255, 82, 119;
+            --text-color: #ffffff;
+            --panel-bg: rgba(255, 255, 255, 0.06);
+            --panel-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ffe5ec 0%, #f0e6ff 100%);
-            color: var(--dark);
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(179, 136, 255, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 82, 119, 0.2) 0px, transparent 50%);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        .card {
-            background: white;
+        .experience-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 1100px;
+            max-height: 750px;
+            background: rgba(15, 12, 27, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 25px;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
             position: relative;
-            border: 4px solid var(--pink-light);
-            box-sizing: border-box;
+            overflow: hidden;
+            transition: border-color 0.8s ease;
         }
 
-        h1 {
-            font-family: 'Fredoka One', cursive;
-            color: var(--pink-main);
-            font-size: 2.1rem;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
-        }
-
-        .age-badge {
-            background-color: var(--yellow);
-            color: var(--dark);
-            font-family: 'Fredoka One', cursive;
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 1.2rem;
-            transform: rotate(-3deg);
-            margin-bottom: 15px;
-            box-shadow: 2px 2px 0px var(--dark);
+        @media (max-width: 1120px) {
+            .experience-container {
+                width: 96vw;
+                height: 94vh;
+                border-radius: 16px;
+            }
         }
 
         .screen {
             display: none;
-            animation: fadeIn 0.5s ease;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .screen.active {
-            display: block;
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        h1, h2 {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
+
+        h1 { font-size: 2.8rem; color: #ffffff; }
+        h2 { font-size: 2rem; color: var(--accent-color); }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 600px;
+            color: #b3b3cc;
+            margin: 0 0 30px 0;
         }
 
         .btn {
-            background: linear-gradient(135deg, var(--pink-main) 0%, #ff5287 100%);
+            background: linear-gradient(135deg, var(--accent-color) 0%, #d81b60 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 16px 36px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 117, 160, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-family: 'Quicksand', sans-serif;
-            margin-top: 15px;
+            box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 1px;
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 7px 20px rgba(255, 117, 160, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(var(--accent-rgb), 0.5);
         }
 
-        .emoji-big {
-            font-size: 3.5rem;
-            margin: 10px 0;
-            display: inline-block;
-            animation: bounce 2s infinite;
+        .btn:active {
+            transform: translateY(1px);
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* Color Setup Screen */
+        .color-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 500px;
         }
 
-        .canvas-container {
+        .color-theme-opt {
+            height: 70px;
+            border-radius: 16px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
             position: relative;
-            width: 300px;
-            height: 220px;
-            margin: 15px auto;
-            border: 3px dashed var(--purple);
-            border-radius: 15px;
-            background: #fafafa;
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        canvas {
+        .color-theme-opt:hover {
+            transform: scale(1.08);
+        }
+
+        .color-theme-opt.selected {
+            border-color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+
+        /* Wish Screen */
+        .wish-input-wrapper {
+            width: 100%;
+            max-width: 550px;
+            margin-bottom: 30px;
+        }
+
+        .wish-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 20px;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .wish-input:focus {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.2);
+        }
+
+        /* Split Creative Workspaces */
+        .workspace {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            gap: 30px;
+            padding: 10px;
+        }
+
+        .canvas-area {
+            flex: 1;
+            position: relative;
+            background: #151226;
+            border-radius: 20px;
+            border: 1px solid var(--panel-border);
+            overflow: hidden;
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .canvas-area canvas {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 2;
-            cursor: crosshair;
+            width: 100%;
+            height: 100%;
             touch-action: none;
+            z-index: 2;
         }
 
-        .face-bg {
+        .canvas-background-svg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            opacity: 0.15;
             pointer-events: none;
         }
 
-        .face-bg svg {
-            width: 180px;
-            height: 180px;
-            opacity: 0.25;
-        }
-
-        .color-picker {
+        .studio-controls {
+            width: 280px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 25px;
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .color-dot {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8c8ca6;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .palette-color {
+            height: 35px;
+            border-radius: 10px;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: transform 0.1s;
+            transition: transform 0.2s;
         }
 
-        .color-dot.selected {
-            border-color: var(--dark);
-            transform: scale(1.2);
+        .palette-color:hover {
+            transform: scale(1.15);
         }
 
-        .tools-picker {
+        .palette-color.active {
+            border-color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .brush-sizes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .brush-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 5px;
+            align-items: center;
+            transition: all 0.2s;
         }
 
-        .tool-btn {
-            background: #f0e6ff;
-            border: 2px solid var(--purple);
-            padding: 5px 12px;
-            border-radius: 15px;
+        .brush-btn:hover { background: rgba(255,255,255,0.2); }
+        .brush-btn.active { background: var(--accent-color); border-color: #ffffff; }
+
+        /* Dance/Vibe Screen */
+        .vibe-deck {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .vibe-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85rem;
+            transition: all 0.3s ease;
         }
 
-        .tool-btn.active {
-            background: var(--purple);
+        .vibe-card:hover {
+            border-color: var(--accent-color);
+            background: rgba(255, 82, 119, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .vibe-card.selected {
+            background: var(--accent-color);
+            border-color: #ffffff;
             color: white;
         }
 
-        .photo-container {
-            margin: 20px auto;
-            width: 200px;
-            height: 200px;
+        .vibe-card .emoji { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .vibe-card .title { font-weight: 700; font-size: 1.1rem; }
+
+        /* Final Reveal Screen */
+        .photo-frame-premium {
+            position: relative;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
-            border: 6px solid var(--yellow);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15), 0 0 0 6px var(--pink-main);
-            overflow: hidden;
-            animation: pulseGlow 3s infinite ease-in-out;
+            padding: 8px;
+            background: linear-gradient(45deg, var(--accent-color), #b388ff, var(--yellow, #ffd600));
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            margin-bottom: 25px;
+            animation: rotateFrame 10s linear infinite;
         }
 
-        .photo-container .kimee-img {
+        .photo-inner {
             width: 100%;
             height: 100%;
-            background-image: url('kimee.png');
-            background-size: cover;
-            background-position: center top;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #151226;
+            animation: counterRotate 10s linear infinite;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.15), 0 0 0 6px var(--pink-main); }
-            50% { transform: scale(1.03); box-shadow: 0 12px 25px rgba(0,0,0,0.2), 0 0 0 10px var(--yellow); }
+        .photo-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
         }
 
-        .progress-dots {
+        @keyframes rotateFrame { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes counterRotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+        .wish-reveal-box {
+            background: rgba(255,255,255,0.04);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px 25px;
+            border-radius: 0 16px 16px 0;
+            margin: 20px 0;
+            font-style: italic;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .nav-progress {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-top: 25px;
+            gap: 12px;
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            right: 0;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
+        .progress-node {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background-color: #e0e0e0;
-            transition: background-color 0.3s;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
         }
 
-        .dot.active {
-            background-color: var(--pink-main);
-            width: 20px;
+        .progress-node.active {
+            background: var(--accent-color);
+            width: 24px;
             border-radius: 10px;
+            box-shadow: 0 0 10px var(--accent-color);
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <!-- ÉCRAN 1 : ACCUEIL -->
+    <div class="experience-container" id="mainContainer">
+        
+        <!-- SCREEN 1: PRE-TEEN COLOR SETUP -->
         <div id="screen1" class="screen active">
-            <span class="emoji-big">🎁</span>
-            <h1>Coucou Kimee !</h1>
-            <div class="age-badge">10 ANS AUJOURD'HUI !</div>
-            <p>Quelqu'un a préparé une surprise interactive juste pour toi... Es-tu prête à la découvrir ? ✨</p>
-            <button class="btn" onclick="nextScreen(2); launchConfetti();">C'est parti !</button>
+            <h1>Welcome, Kimee</h1>
+            <p>Your immersive 10th anniversary digital studio is loading. To initialize your custom interface, select your signature aura color configuration below:</p>
+            <div class="color-matrix">
+                <div class="color-theme-opt id-coral" style="background: linear-gradient(135deg, #ff5277, #ff75a0);" onclick="setAura('#ff5277', this)"></div>
+                <div class="color-theme-opt id-neon" style="background: linear-gradient(135deg, #00f5d4, #00bbf9);" onclick="setAura('#00f5d4', this)"></div>
+                <div class="color-theme-opt id-royal" style="background: linear-gradient(135deg, #b388ff, #7928ca);" onclick="setAura('#b388ff', this)"></div>
+                <div class="color-theme-opt id-sunset" style="background: linear-gradient(135deg, #ff9f1c, #ff4081);" onclick="setAura('#ff9f1c', this)"></div>
+            </div>
+            <button class="btn" id="startBtn" onclick="goToScreen(2)" disabled style="opacity:0.4; cursor:not-allowed;">Initialize Experience</button>
         </div>
 
-        <!-- ÉCRAN 2 : LA DANSE -->
+        <!-- SCREEN 2: THE IMMERSIVE WISH -->
         <div id="screen2" class="screen">
-            <span class="emoji-big">💃🏻🎵</span>
-            <h1>Défi Rythme !</h1>
-            <p>On sait que tu adores danser ! Pour débloquer la suite de ton message, tu dois faire ta meilleure petite chorégraphie de victoire de 10 secondes dans ta chambre ! 🕺</p>
-            <p style="font-size: 0.85rem; color: #7f8c8d;">(Appuie sur le bouton dès que tu as fini de danser !)</p>
-            <button class="btn" onclick="nextScreen(3)">J'ai dansé ! 💫</button>
+            <h2>Chapter I: The Chapter of 10</h2>
+            <p>Entering the double-digit era is a monumental transition. Lock your vision for this upcoming year. Type your hidden birthday wish below to seal it into the experience architecture:</p>
+            <div class="wish-input-wrapper">
+                <input type="text" id="kimeeWish" class="wish-input" placeholder="Type your 10th birthday milestone wish..." autocomplete="off">
+            </div>
+            <button class="btn" onclick="saveWishAndNext()">Lock My Wish</button>
         </div>
 
-        <!-- ÉCRAN 3 : LE DESSIN -->
-        <div id="screen3" class="screen">
-            <span class="emoji-big">🎨🖌️</span>
-            <h1>L'Espace Artiste</h1>
-            <p>Kimee la dessinatrice, dessine un beau gâteau d'anniversaire ou ce que tu veux avec ton doigt sur l'écran :</p>
-            
-            <div class="color-picker">
-                <div class="color-dot selected" style="background: #ff75a0;" onclick="changeColor('#ff75a0', this)"></div>
-                <div class="color-dot" style="background: #b388ff;" onclick="changeColor('#b388ff', this)"></div>
-                <div class="color-dot" style="background: #ffd600;" onclick="changeColor('#ffd600', this)"></div>
-                <div class="color-dot" style="background: #2c2c54;" onclick="changeColor('#2c2c54', this)"></div>
-            </div>
-
-            <div class="canvas-container">
-                <canvas id="sketchpad" width="300" height="220"></canvas>
-            </div>
-            
-            <button class="btn" onclick="nextScreen(4)">Chef-d'œuvre terminé ! ✨</button>
-        </div>
-
-        <!-- ÉCRAN 4 : LE MAQUILLAGE REEL -->
-        <div id="screen4" class="screen">
-            <span class="emoji-big">💄✨</span>
-            <h1>Atelier Maquillage de Star</h1>
-            <p>Deviens la maquilleuse officielle ! Utilise ton doigt pour appliquer du rouge à lèvres rouge, du fard bleu ou des paillettes directement sur la star !</p>
-            
-            <div class="color-picker">
-                <div class="color-dot selected" style="background: #ff0044;" onclick="changeMakeupColor('#ff0044', this)"> Rouge à lèvres 💋</div>
-                <div class="color-dot" style="background: #00b4d8;" onclick="changeMakeupColor('#00b4d8', this)"> Fard à paupières 👁️</div>
-                <div class="color-dot" style="background: #ff007f;" onclick="changeMakeupColor('#ff007f', this)"> Blush 🌸</div>
-            </div>
-
-            <div class="canvas-container">
-                <div class="face-bg">
-                    <!-- Silhouette SVG simplifiée d'une star / visage à maquiller -->
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50,15 C35,15 25,25 25,40 C25,55 35,70 50,70 C65,70 75,55 75,40 C75,25 65,15 50,15 Z" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <path d="M25,35 C20,35 15,40 15,45 C15,50 20,55 25,55" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <path d="M75,35 C80,35 85,40 85,45 C85,50 80,55 75,55" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <path d="M40,43 C42,41 45,41 47,43" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <path d="M53,43 C55,41 58,41 60,43" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <path d="M42,60 C45,63 55,63 58,60" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <path d="M50,48 L50,54" fill="none" stroke="#2c2c54" stroke-width="2"/>
-                        <!-- Des cheveux de star longs -->
-                        <path d="M25,30 C20,20 30,5 50,5 C70,5 80,20 75,30 C80,45 80,75 80,95 M25,30 C20,45 20,75 20,95" fill="none" stroke="#2c2c54" stroke-width="1.5"/>
-                    </svg>
+        <!-- SCREEN 3: PROFESSIONAL IMMERSIVE DESIGN STUDIO -->
+        <div id="screen3" class="screen" style="padding: 25px;">
+            <div class="workspace">
+                <div class="canvas-area">
+                    <canvas id="designCanvas"></canvas>
                 </div>
-                <canvas id="makeuppad" width="300" height="220"></canvas>
-            </div>
+                <div class="studio-controls">
+                    <div>
+                        <h2>Creative Studio</h2>
+                        <p style="font-size:0.85rem; margin-bottom:15px; text-align:left;">Express your mood with adaptive multi-radius precision strokes.</p>
+                        
+                        <div class="control-group">
+                            <div class="control-label">Studio Palette</div>
+                            <div class="palette-grid" id="designPalette"></div>
+                        </div>
 
-            <div class="tools-picker">
-                <button class="tool-btn active" id="brush-tool" onclick="setMakeupMode('brush')">Pinceau 🖌️</button>
-                <button class="tool-btn" id="glitter-tool" onclick="setMakeupMode('glitter')">Effet Paillettes ✨</button>
+                        <div class="control-group">
+                            <div class="control-label">Brush Radius</div>
+                            <div class="brush-sizes">
+                                <button class="brush-btn active" style="width:25px; height:25px;" onclick="setBrushSize(4, this)"></button>
+                                <button class="brush-btn" style="width:32px; height:32px;" onclick="setBrushSize(9, this)"></button>
+                                <button class="brush-btn" style="width:40px; height:40px;" onclick="setBrushSize(16, this)"></button>
+                                <button class="brush-btn" style="width:48px; height:48px;" onclick="setBrushSize(25, this)"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="goToScreen(4)">Submit Artwork</button>
+                </div>
             </div>
-
-            <button class="btn" onclick="nextScreen(5); finalExplosion();">Look de star terminé ! 👑</button>
         </div>
 
-        <!-- ÉCRAN 5 : LE MESSAGE FINAL -->
+        <!-- SCREEN 4: HIGH-FIDELITY STAR MAKEUP SIMULATION -->
+        <div id="screen4" class="screen" style="padding: 25px;">
+            <div class="workspace">
+                <div class="canvas-area">
+                    <!-- High Fidelity Popstar wireframe -->
+                    <svg class="canvas-background-svg" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M300 110 C220 110, 180 160, 180 250 C180 340, 220 410, 300 410 C380 410, 420 340, 420 250 C420 160, 380 110, 300 110 Z" stroke="#ffffff" stroke-width="2"/>
+                        <path d="M220 130 C190 90, 150 140, 170 190 C150 200, 140 240, 160 270" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4"/>
+                        <path d="M380 130 C410 90, 450 140, 430 190 C450 200, 460 240, 440 270" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4"/>
+                        <!-- Eyes -->
+                        <path d="M240 220 Q265 205 280 220" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M320 220 Q335 205 360 220" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="260" cy="225" r="7" fill="#ffffff"/>
+                        <circle cx="340" cy="225" r="7" fill="#ffffff"/>
+                        <!-- Lips -->
+                        <path d="M265 320 Q300 305 335 320 Q300 345 265 320 Z" stroke="#ffffff" stroke-width="2.5" fill="rgba(255,255,255,0.05)"/>
+                        <!-- Eyebrows -->
+                        <path d="M230 200 Q255 190 280 205" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M320 205 Q345 190 370 200" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <canvas id="makeupCanvas"></canvas>
+                </div>
+                <div class="studio-controls">
+                    <div>
+                        <h2>Cosmetic Lab</h2>
+                        <p style="font-size:0.85rem; margin-bottom:15px; text-align:left;">Apply customized high-fashion blends over the pop-star silhouette canvas.</p>
+                        
+                        <div class="control-group">
+                            <div class="control-label">Cosmetic Textures</div>
+                            <div class="palette-grid" id="makeupPalette"></div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">Applicator Radius</div>
+                            <div class="brush-sizes">
+                                <button class="brush-btn active" style="width:25px; height:25px;" onclick="setMakeupSize(8, this)"></button>
+                                <button class="brush-btn" style="width:32px; height:32px;" onclick="setMakeupSize(16, this)"></button>
+                                <button class="brush-btn" style="width:40px; height:40px;" onclick="setMakeupSize(26, this)"></button>
+                                <button class="brush-btn" style="width:48 height:48px;" onclick="setMakeupSize(40, this)"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="goToScreen(5)">Lock Makeover</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: AUDIO SYNC & VIBE CHECK -->
         <div id="screen5" class="screen">
-            <div class="photo-container">
-                <div class="kimee-img"></div>
+            <h2>Chapter IV: Synchronized Beats</h2>
+            <p>Select your background rhythmic energy configuration to launch the final premium transformation reveal sequence:</p>
+            <div class="vibe-deck">
+                <div class="vibe-card" onclick="selectVibe('Club Electro', this)">
+                    <span class="emoji">⚡</span>
+                    <div class="title">Club Electro</div>
+                </div>
+                <div class="vibe-card" onclick="selectVibe('Pop Choreo', this)">
+                    <span class="emoji">🎤</span>
+                    <div class="title">Pop Choreo</div>
+                </div>
             </div>
-            <h1>JOYEUX ANNIVERSAIRE !</h1>
-            <div class="age-badge" style="transform: rotate(3deg); background-color: var(--purple); color: white;">BIENVENUE CHEZ LES GRANDS !</div>
-            <p style="font-size: 1.05rem; line-height: 1.6;">
-                Un immense joyeux anniversaire, <strong>Kimee</strong> ! <br><br>
-                Tu es une fille vive, super intéressante et bourrée de talents. Ne t'arrête jamais de danser, de dessiner et de mettre de la couleur et des paillettes partout autour de toi ! 🌟🎨💄<br><br>
-                Passe une journée magique ! 🍰🎈
-            </p>
-            <button class="btn" onclick="finalExplosion()">Encore des confettis ! 🥳</button>
+            <button class="btn" id="vibeNextBtn" onclick="goToScreen(6); triggerFinalCelebration();" disabled style="opacity:0.4; cursor:not-allowed;">Unlock Final Revelation</button>
         </div>
 
-        <div class="progress-dots">
-            <div class="dot active" id="dot1"></div>
-            <div class="dot" id="dot2"></div>
-            <div class="dot" id="dot3"></div>
-            <div class="dot" id="dot4"></div>
-            <div class="dot" id="dot5"></div>
+        <!-- SCREEN 6: THE CELEBRITY OVERLAY REVEAL -->
+        <div id="screen6" class="screen">
+            <div class="photo-frame-premium">
+                <div class="photo-inner">
+                    <img src="kimee.png" id="kimeePhoto" alt="Kimee" onerror="this.onerror=null; this.src='https://images.squarespace-cdn.com/content/v1/61c07010ca656722d3fa6e45/c01da0e6-b60b-4654-be8c-fe9fe2a3f789/image_rlhSrT.png';">
+                </div>
+            </div>
+            <h1 style="font-size:2.4rem;">HAPPY BIRTHDAY, KIMEE!</h1>
+            <h2>WELCOME TO THE DOUBLE DIGITS</h2>
+            <p style="font-size:1.05rem; max-width:520px; margin-bottom:10px;">
+                You are fierce, incredibly creative, and profoundly talented. Keep owning your rhythm, designing your dreams, and shining light everywhere you go.
+            </p>
+            <div class="wish-reveal-box" id="revealedWish">"Your encrypted wish remains safe within the stars"</div>
+            <button class="btn" onclick="triggerFinalCelebration()">Trigger Confetti Array 🚀</button>
+        </div>
+
+        <!-- Navigation Dots tracking experience milestone blocks -->
+        <div class="nav-progress">
+            <div class="progress-node active" id="node1"></div>
+            <div class="progress-node" id="node2"></div>
+            <div class="progress-node" id="node3"></div>
+            <div class="progress-node" id="node4"></div>
+            <div class="progress-node" id="node5"></div>
+            <div class="progress-node" id="node6"></div>
         </div>
     </div>
 
     <script>
-        function nextScreen(screenNumber) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('screen' + screenNumber).classList.add('active');
+        let selectedAuraColor = '';
+        let activeDesignColor = '#ff5277';
+        let activeMakeupColor = 'rgba(255, 64, 129, 0.4)';
+        let isDrawingMode = false;
+        
+        let brushSizeDesign = 4;
+        let brushSizeMakeup = 16;
 
-            document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
-            document.getElementById('dot' + screenNumber).classList.add('active');
+        // Expanded professional palettes
+        const designColors = ['#ff5277', '#b388ff', '#00f5d4', '#00bbf9', '#ffe600', '#ff9f1c', '#ffffff', '#e040fb', '#111111', '#ff1744', '#00e676', '#2979ff'];
+        const makeupTextures = [
+            'rgba(255, 64, 129, 0.35)',  // Rose Blush
+            'rgba(213, 0, 0, 0.5)',      // Deep Matte Crimson
+            'rgba(224, 64, 251, 0.4)',   // Velvet Violet
+            'rgba(0, 229, 255, 0.35)',   // High-Gloss Teal
+            'rgba(255, 235, 59, 0.4)',    // Gold Shimmer
+            'rgba(255, 255, 255, 0.5)',  // High-light Frost
+            'rgba(255, 112, 67, 0.4)',   // Soft Coral
+            'rgba(41, 121, 255, 0.35)'   // Electric Indigo
+        ];
 
-            if(screenNumber === 3) {
-                initDrawingCanvas();
-            }
-            if(screenNumber === 4) {
-                initMakeupCanvas();
-            }
+        function setAura(color, element) {
+            selectedAuraColor = color;
+            document.querySelectorAll('.color-theme-opt').forEach(o => o.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            document.documentElement.style.setProperty('--accent-color', color);
+            // Quick extraction of rgb
+            if(color === '#ff5277') document.documentElement.style.setProperty('--accent-rgb', '255, 82, 119');
+            if(color === '#00f5d4') document.documentElement.style.setProperty('--accent-rgb', '0, 245, 212');
+            if(color === '#b388ff') document.documentElement.style.setProperty('--accent-rgb', '179, 136, 255');
+            if(color === '#ff9f1c') document.documentElement.style.setProperty('--accent-rgb', '255, 159, 28');
+
+            const startBtn = document.getElementById('startBtn');
+            startBtn.disabled = false;
+            startBtn.style.opacity = '1';
+            startBtn.style.cursor = 'pointer';
         }
 
-        function launchConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
+        function goToScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + num).classList.add('active');
+
+            document.querySelectorAll('.progress-node').forEach(n => n.classList.remove('active'));
+            document.getElementById('node' + num).classList.add('active');
+
+            if(num === 3) initStudioCanvas();
+            if(num === 4) initMakeupCanvas();
+        }
+
+        function saveWishAndNext() {
+            const wishVal = document.getElementById('kimeeWish').value.trim();
+            if(wishVal) {
+                document.getElementById('revealedWish').innerText = `"${wishVal}"`;
+            }
+            goToScreen(3);
+        }
+
+        function selectVibe(vibe, element) {
+            document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            const btn = document.getElementById('vibeNextBtn');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+        }
+
+        // Setup Advanced Palette interfaces
+        function generatePalettes() {
+            const dp = document.getElementById('designPalette');
+            designColors.forEach((c, idx) => {
+                const item = document.createElement('div');
+                item.className = `palette-color ${idx===0?'active':''}`;
+                item.style.backgroundColor = c;
+                item.onclick = () => {
+                    activeDesignColor = c;
+                    document.querySelectorAll('#designPalette .palette-color').forEach(p => p.classList.remove('active'));
+                    item.classList.add('active');
+                };
+                dp.appendChild(item);
+            });
+
+            const mp = document.getElementById('makeupPalette');
+            makeupTextures.forEach((t, idx) => {
+                const item = document.createElement('div');
+                item.className = `palette-color ${idx===0?'active':''}`;
+                item.style.backgroundColor = t;
+                item.onclick = () => {
+                    activeMakeupColor = t;
+                    document.querySelectorAll('#makeupPalette .palette-color').forEach(p => p.classList.remove('active'));
+                    item.classList.add('active');
+                };
+                mp.appendChild(item);
             });
         }
 
-        function finalExplosion() {
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
+        function setBrushSize(size, btn) {
+            brushSizeDesign = size;
+            document.querySelectorAll('#screen3 .brush-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
 
-            (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 }
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 }
-                });
+        function setMakeupSize(size, btn) {
+            brushSizeMakeup = size;
+            document.querySelectorAll('#screen4 .brush-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
 
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
+        // Generic Canvas Core Tracking (Multi-touch & Pointer events matching full immersion requests)
+        function setupCanvasEngine(canvasId, isCosmetic = false) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function getCoordinates(e) {
+                const rect = canvas.getBoundingClientRect();
+                if (e.touches && e.touches.length > 0) {
+                    return {
+                        x: e.touches[0].clientX - rect.left,
+                        y: e.touches[0].clientY - rect.top
+                    };
                 }
-            }());
-        }
+                return {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+            }
 
-        // --- ZONE DESSIN (ÉCRAN 3) ---
-        let drawCanvas, drawCtx, isDrawing = false;
-        let drawColor = '#ff75a0';
-
-        function initDrawingCanvas() {
-            drawCanvas = document.getElementById('sketchpad');
-            drawCtx = drawCanvas.getContext('2d');
-            drawCtx.lineWidth = 5;
-            drawCtx.lineCap = 'round';
-            drawCtx.lineJoin = 'round';
-            
-            // Événements Souris
-            drawCanvas.addEventListener('mousedown', startDraw);
-            drawCanvas.addEventListener('mouseup', stopDraw);
-            drawCanvas.addEventListener('mousemove', drawing);
-            drawCanvas.addEventListener('mouseleave', stopDraw);
-
-            // Événements Tactiles Fixés (Doigts)
-            drawCanvas.addEventListener('touchstart', (e) => { startDraw(e.touches[0]); });
-            drawCanvas.addEventListener('touchend', stopDraw);
-            drawCanvas.addEventListener('touchmove', (e) => { 
-                e.preventDefault(); 
-                drawing(e.touches[0]); 
-            }, { passive: false });
-        }
-
-        function startDraw(e) {
-            isDrawing = true;
-            const rect = drawCanvas.getBoundingClientRect();
-            drawCtx.beginPath();
-            drawCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-        }
-
-        function drawing(e) {
-            if (!isDrawing) return;
-            const rect = drawCanvas.getBoundingClientRect();
-            drawCtx.strokeStyle = drawColor;
-            drawCtx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-            drawCtx.stroke();
-        }
-
-        function stopDraw() {
-            isDrawing = false;
-        }
-
-        function changeColor(color, element) {
-            drawColor = color;
-            document.querySelectorAll('#screen3 .color-dot').forEach(dot => dot.classList.remove('selected'));
-            element.classList.add('selected');
-        }
-
-        // --- ZONE MAQUILLAGE REEL (ÉCRAN 4) ---
-        let makeupCanvas, makeupCtx, isMaquillant = false;
-        let makeupColor = '#ff0044';
-        let makeupMode = 'brush'; // ou 'glitter'
-
-        function initMakeupCanvas() {
-            makeupCanvas = document.getElementById('makeuppad');
-            makeupCtx = makeupCanvas.getContext('2d');
-            makeupCtx.lineCap = 'round';
-            makeupCtx.lineJoin = 'round';
-            
-            makeupCanvas.addEventListener('mousedown', startMakeup);
-            makeupCanvas.addEventListener('mouseup', stopMakeup);
-            makeupCanvas.addEventListener('mousemove', makeupping);
-            makeupCanvas.addEventListener('mouseleave', stopMakeup);
-
-            makeupCanvas.addEventListener('touchstart', (e) => { startMakeup(e.touches[0]); });
-            makeupCanvas.addEventListener('touchend', stopMakeup);
-            makeupCanvas.addEventListener('touchmove', (e) => { 
-                e.preventDefault(); 
-                makeupping(e.touches[0]); 
-            }, { passive: false });
-        }
-
-        function startMakeup(e) {
-            isMaquillant = true;
-            const rect = makeupCanvas.getBoundingClientRect();
-            makeupCtx.beginPath();
-            makeupCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-        }
-
-        function makeupping(e) {
-            if (!isMaquillant) return;
-            const rect = makeupCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            if (makeupMode === 'brush') {
-                makeupCtx.lineWidth = 12;
-                makeupCtx.strokeStyle = makeupColor;
-                makeupCtx.globalAlpha = 0.4; // Effet maquillage transparent translucide
-                makeupCtx.lineTo(x, y);
-                makeupCtx.stroke();
-            } else {
-                // Mode Paillettes
-                makeupCtx.globalAlpha = 1.0;
-                for (let i = 0; i < 6; i++) {
-                    let px = x + (Math.random() - 0.5) * 20;
-                    let py = y + (Math.random() - 0.5) * 20;
-                    makeupCtx.fillStyle = makeupColor;
-                    makeupCtx.font = Math.floor(Math.random() * 8 + 6) + "px sans-serif";
-                    makeupCtx.fillText("✨", px, py);
+            function startDraw(e) {
+                isDrawingMode = true;
+                const coords = getCoordinates(e);
+                ctx.beginPath();
+                ctx.moveTo(coords.x, coords.y);
+                
+                // Cosmetic canvas blur simulation
+                if(isCosmetic) {
+                    ctx.shadowBlur = brushSizeMakeup / 2;
+                    ctx.shadowColor = activeMakeupColor;
+                    ctx.strokeStyle = activeMakeupColor;
+                    ctx.lineWidth = brushSizeMakeup;
+                } else {
+                    ctx.shadowBlur = 0;
+                    ctx.strokeStyle = activeDesignColor;
+                    ctx.lineWidth = brushSizeDesign;
                 }
             }
+
+            function drawMove(e) {
+                if (!isDrawingMode) return;
+                e.preventDefault();
+                const coords = getCoordinates(e);
+                ctx.lineTo(coords.x, coords.y);
+                
+                if(isCosmetic) {
+                    ctx.strokeStyle = activeMakeupColor;
+                    ctx.shadowColor = activeMakeupColor;
+                } else {
+                    ctx.strokeStyle = activeDesignColor;
+                }
+                ctx.stroke();
+            }
+
+            function endDraw() {
+                isDrawingMode = false;
+                ctx.beginPath();
+            }
+
+            // High priority unified gesture streams
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', drawMove);
+            canvas.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('mouseleave', endDraw);
+
+            canvas.addEventListener('touchstart', startDraw, { passive: false });
+            canvas.addEventListener('touchmove', drawMove, { passive: false });
+            canvas.addEventListener('touchend', endDraw);
         }
 
-        function stopMakeup() {
-            isMaquillant = false;
+        function initStudioCanvas() {
+            setupCanvasEngine('designCanvas', false);
         }
 
-        function changeMakeupColor(color, element) {
-            makeupColor = color;
-            document.querySelectorAll('#screen4 .color-dot').forEach(dot => dot.classList.remove('selected'));
-            element.classList.add('selected');
+        function initMakeupCanvas() {
+            setupCanvasEngine('makeupCanvas', true);
         }
 
-        function setMakeupMode(mode) {
-            makeupMode = mode;
-            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
-            if (mode === 'brush') document.getElementById('brush-tool').classList.add('active');
-            if (mode === 'glitter') document.getElementById('glitter-tool').classList.add('active');
+        function triggerFinalCelebration() {
+            confetti({ particleCount: 140, spread: 80, origin: { y: 0.65 } });
+            setTimeout(() => {
+                confetti({ particleCount: 80, angle: 60, spread: 60, origin: { x: 0 } });
+                confetti({ particleCount: 80, angle: 120, spread: 60, origin: { x: 1 } });
+            }, 400);
         }
+
+        // Initialize lists on runtime
+        generatePalettes();
     </script>
 </body>
 </html>
