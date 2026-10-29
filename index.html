@@ -31,6 +31,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            box-sizing: border-box;
         }
         .main-content {
             flex: 1;
@@ -100,7 +101,7 @@
             padding: 10px;
             gap: 15px;
             width: 100%;
-            height: 70%;
+            height: 65%;
             box-sizing: border-box;
         }
         .canvas-container {
@@ -111,7 +112,7 @@
             flex: 1;
             height: 100%;
         }
-        canvas {
+        canvas.paint-zone {
             position: absolute;
             top: 0;
             left: 0;
@@ -164,6 +165,7 @@
             background: rgba(0,0,0,0.1);
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
+            box-sizing: border-box;
         }
         .nav-btn {
             background: transparent;
@@ -264,7 +266,7 @@
                 <p>Draw a beautiful graphic masterpiece with your finger:</p>
                 <div class="canvas-workspace">
                     <div class="canvas-container">
-                        <canvas id="artCanvas"></canvas>
+                        <canvas id="artCanvas" class="paint-zone"></canvas>
                     </div>
                     <div class="side-toolbar">
                         <div class="palette" id="artPalette"></div>
@@ -282,7 +284,7 @@
                 <p>Paint and makeup the star fashion model lineart below:</p>
                 <div class="canvas-workspace">
                     <div class="canvas-container">
-                        <canvas id="makeupCanvas"></canvas>
+                        <canvas id="makeupCanvas" class="paint-zone"></canvas>
                     </div>
                     <div class="side-toolbar">
                         <div class="palette" id="makeupPalette"></div>
@@ -304,6 +306,4 @@
             <!-- SCREEN 5 -->
             <div id="screen5" class="screen">
                 <div class="celebration-profile">
-                    <img src="Kimee.png" onerror="this.onerror=null; this.src='kimee.png';">
-                </div>
-                
+                    
