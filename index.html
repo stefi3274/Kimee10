@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Kimee!</title>
+    <style>
+        :root {
+            --aura: #ff75a0;
+            --dark: #0a0a14;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--dark);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .studio-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 95%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .main-content {
+            flex: 1;
+            min-height: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .screen.active {
+            display: flex;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            color: var(--aura);
+        }
+        p {
+            font-size: 1rem;
+            color: #a0a0c0;
+            margin: 0 0 15px 0;
+            max-width: 500px;
+        }
+        .aura-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .aura-btn {
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .aura-btn.selected {
+            border-color: var(--aura);
+            background: rgba(255,255,255,0.08);
+        }
+        .wish-input {
+            width: 80%;
+            max-width: 350px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+        }
+        .wish-input:focus {
+            border-color: var(--aura);
+        }
+        .canvas-workspace {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            padding: 10px;
+            gap: 15px;
+            width: 100%;
+            height: 65%;
+            box-sizing: border-box;
+        }
+        .canvas-container {
+            position: relative;
+            background: #05050a;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+        }
+        .canvas-container.light {
+            background: #fff7f2;
+        }
+        canvas.paint-zone {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+        .lineart {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .side-toolbar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: rgba(255,255,255,0.02);
+            padding: 10px;
+            border-radius: 12px;
+            justify-content: center;
+        }
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .color-node {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            box-sizing: border-box;
+        }
+        .color-node.selected {
+            border-color: white;
+            transform: scale(1.1);
+        }
+        .brush-control {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: #a0a0c0;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+        .brush-control input {
+            width: 70px;
+        }
+        .navigation-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0,0,0,0.1);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .nav-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .nav-btn:disabled {
+            opacity: 0.15;
+            cursor: not-allowed;
+        }
+        .nav-btn.primary-action {
+            background: var(--aura);
+            border-color: var(--aura);
+        }
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.2s;
+        }
+        .dot.active {
+            background: var(--aura);
+            width: 15px;
+            border-radius: 3px;
+        }
+        .celebration-profile {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid #ffd600;
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            font-size: 5rem;
+        }
+        .celebration-profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .revealed-wish {
+            background: rgba(255,255,255,0.05);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-style: italic;
+            margin-top: 10px;
+            color: #ffd600;
+            max-width: 90%;
+            word-break: break-word;
+        }
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        @media (max-width: 520px) {
+            h1 { font-size: 1.7rem; }
+            .nav-btn { padding: 10px 16px; }
+            .navigation-bar { padding: 12px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="studio-container" id="studio">
+        <div class="main-content">
+
+            <!-- SCREEN 1 -->
+            <div id="screen1" class="screen active">
+                <span style="font-size: 3rem; margin-bottom: 5px;">✨</span>
+                <h1>Welcome, Kimee</h1>
+                <p>Pick your signature aura color to open the studio:</p>
+                <div class="aura-grid">
+                    <button class="aura-btn" data-aura="#ff75a0">Coral Neon 🌸</button>
+                    <button class="aura-btn" data-aura="#00f2fe">Electric Cyan ⚡</button>
+                    <button class="aura-btn" data-aura="#b388ff">Deep Amethyst 🔮</button>
+                    <button class="aura-btn" data-aura="#ffa84c">Sunset Glow 🌅</button>
+                </div>
+            </div>
+
+            <!-- SCREEN 2 -->
+            <div id="screen2" class="screen">
+                <span style="font-size: 3rem; margin-bottom: 5px;">🤫</span>
+                <h1>Make a Secret Wish</h1>
+                <p>You are turning 10! Type your wish for this new decade:</p>
+                <input type="text" id="birthdayWish" class="wish-input" placeholder="Write your secret wish..." autocomplete="off">
+            </div>
+
+            <!-- SCREEN 3 -->
+            <div id="screen3" class="screen">
+                <h1>The Design Studio</h1>
+                <p>Draw a beautiful graphic masterpiece with your finger:</p>
+                <div class="canvas-workspace">
+                    <div class="canvas-container">
+                        <canvas id="artCanvas" class="paint-zone"></canvas>
+                    </div>
+                    <div class="side-toolbar">
+                        <div class="palette" id="artPalette"></div>
+                        <div class="brush-control">
+                            <label>Size</label>
+                            <input type="range" id="artBrushSize" min="2" max="20" value="6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 4 -->
+            <div id="screen4" class="screen">
+                <h1>Pop Star Glam Lab</h1>
+                <p>Paint and makeup the star fashion model lineart below:</p>
+                <div class="canvas-workspace">
+                    <div class="canvas-container light">
+                        <canvas id="makeupCanvas" class="paint-zone"></canvas>
+                        <svg class="lineart" viewBox="0 0 200 260" preserveAspectRatio="xMidYMid meet" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M60 110 C55 40 145 40 140 110 C150 160 140 200 150 245 L50 245 C60 200 50 160 60 110Z"/>
+                            <path d="M62 95 C80 62 120 62 138 95"/>
+                            <ellipse cx="100" cy="110" rx="38" ry="50"/>
+                            <path d="M85 158 L85 195 M115 158 L115 195"/>
+                            <path d="M25 258 C35 215 85 195 85 195 M175 258 C165 215 115 195 115 195"/>
+                            <ellipse cx="84" cy="104" rx="9" ry="5"/>
+                            <ellipse cx="116" cy="104" rx="9" ry="5"/>
+                            <circle cx="84" cy="104" r="2.5"/>
+                            <circle cx="116" cy="104" r="2.5"/>
+                            <path d="M73 94 Q84 88 95 93 M105 93 Q116 88 127 94"/>
+                            <path d="M100 112 L96 128 Q100 131 104 128"/>
+                            <path d="M86 142 Q93 136 100 140 Q107 136 114 142 Q100 156 86 142Z"/>
+                            <path d="M86 142 Q100 146 114 142"/>
+                            <path d="M62 126 l2.5 5 5.5 .8 -4 4 1 5.5 -5 -2.7 -5 2.7 1 -5.5 -4 -4 5.5 -.8z"/>
+                            <path d="M138 126 l2.5 5 5.5 .8 -4 4 1 5.5 -5 -2.7 -5 2.7 1 -5.5 -4 -4 5.5 -.8z"/>
+                        </svg>
+                    </div>
+                    <div class="side-toolbar">
+                        <div class="palette" id="makeupPalette"></div>
+                        <div class="brush-control">
+                            <label>Finish</label>
+                            <select id="makeupMode" style="background:#000; color:#fff; border:1px solid #333; font-size:0.75rem;">
+                                <option value="rgba">Cosmetic</option>
+                                <option value="glitter">Glitter ✨</option>
+                            </select>
+                        </div>
+                        <div class="brush-control">
+                            <label>Size</label>
+                            <input type="range" id="makeupBrushSize" min="3" max="25" value="8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 5 -->
+            <div id="screen5" class="screen">
+                <div class="celebration-profile">
+                    <img id="profileImg" src="kimee.jpg" alt="Kimee">
+                    <span id="profileFallback" style="display:none;">🎂</span>
+                </div>
+                <h1>Happy 10th Birthday, Kimee! 🎉</h1>
+                <p>You are officially a double digit superstar!</p>
+                <div class="revealed-wish" id="revealedWish"></div>
+            </div>
+
+        </div>
+
+        <div class="navigation-bar">
+            <button class="nav-btn" id="backBtn">← Back</button>
+            <div class="progress-dots" id="dots"></div>
+            <button class="nav-btn primary-action" id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var TOTAL = 5;
+            var step = 0;
+            var auraChosen = false;
+
+            var backBtn = document.getElementById('backBtn');
+            var nextBtn = document.getElementById('nextBtn');
+            var dotsBox = document.getElementById('dots');
+            var wishInput = document.getElementById('birthdayWish');
+
+            for (var i = 0; i < TOTAL; i++) {
+                var d = document.createElement('div');
+                d.className = 'dot';
+                dotsBox.appendChild(d);
+            }
+
+            /* ---------- Aura ---------- */
+            function setAura(color, btn) {
+                document.documentElement.style.setProperty('--aura', color);
+                document.querySelectorAll('.aura-btn').forEach(function (b) { b.classList.remove('selected'); });
+                if (btn) btn.classList.add('selected');
+                auraChosen = true;
+                updateNav();
+            }
+            window.setAura = setAura;
+
+            document.querySelectorAll('.aura-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    setAura(btn.getAttribute('data-aura'), btn);
+                    setTimeout(function () { if (step === 0) go(1); }, 350);
+                });
+            });
+
+            wishInput.addEventListener('input', updateNav);
+            wishInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && wishInput.value.trim()) go(2);
+            });
+
+            /* ---------- Navigation ---------- */
+            function canProceed() {
+                if (step === 0) return auraChosen;
+                if (step === 1) return wishInput.value.trim().length > 0;
+                return step < TOTAL - 1;
+            }
+
+            function updateNav() {
+                backBtn.disabled = step === 0;
+                nextBtn.disabled = !canProceed();
+                nextBtn.textContent = step === 3 ? 'Reveal 🎉' : (step === TOTAL - 1 ? '🎂' : 'Next →');
+                var dots = dotsBox.children;
+                for (var i = 0; i < dots.length; i++) {
+                    dots[i].classList.toggle('active', i === step);
+                }
+            }
+
+            function go(n) {
+                if (n < 0 || n > TOTAL - 1) return;
+                step = n;
+                for (var i = 1; i <= TOTAL; i++) {
+                    document.getElementById('screen' + i).classList.toggle('active', i === step + 1);
+                }
+                updateNav();
+                if (step === 2) requestAnimationFrame(art.init);
+                if (step === 3) requestAnimationFrame(makeup.init);
+                if (step === 1) setTimeout(function () { wishInput.focus(); }, 50);
+                if (step === 4) {
+                    var w = wishInput.value.trim();
+                    document.getElementById('revealedWish').textContent = w ? 'Your wish: "' + w + '"' : '';
+                    startConfetti();
+                } else {
+                    stopConfetti();
+                }
+            }
+
+            backBtn.addEventListener('click', function () { go(step - 1); });
+            nextBtn.addEventListener('click', function () { if (canProceed()) go(step + 1); });
+
+            /* ---------- Profile image fallback ---------- */
+            var img = document.getElementById('profileImg');
+            img.addEventListener('error', function () {
+                img.style.display = 'none';
+                document.getElementById('profileFallback').style.display = 'inline';
+            });
+
+            /* ---------- Painting ---------- */
+            function hexToRgba(hex, a) {
+                var n = parseInt(hex.slice(1), 16);
+                return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')';
+            }
+
+            function createPaint(canvasId, paletteId, sizeId, colors, isMakeup) {
+                var canvas = document.getElementById(canvasId);
+                var ctx = canvas.getContext('2d');
+                var palette = document.getElementById(paletteId);
+                var sizeInput = document.getElementById(sizeId);
+                var color = colors[0];
+                var drawing = false;
+                var last = null;
+                var ready = false;
+
+                colors.forEach(function (c, idx) {
+                    var node = document.createElement('div');
+                    node.className = 'color-node' + (idx === 0 ? ' selected' : '');
+                    node.style.background = c;
+                    node.addEventListener('click', function () {
+                        color = c;
+                        palette.querySelectorAll('.color-node').forEach(function (n) { n.classList.remove('selected'); });
+                        node.classList.add('selected');
+                    });
+                    palette.appendChild(node);
+                });
+
+                function fit() {
+                    var r = canvas.getBoundingClientRect();
+                    if (r.width === 0 || r.height === 0) return;
+                    var dpr = window.devicePixelRatio || 1;
+                    canvas.width = Math.round(r.width * dpr);
+                    canvas.height = Math.round(r.height * dpr);
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                }
+
+                function pos(e) {
+                    var r = canvas.getBoundingClientRect();
+                    return { x: e.clientX - r.left, y: e.clientY - r.top };
+                }
+
+                function sparkle(p, size) {
+                    var palette2 = ['#ffffff', '#ffd600', color];
+                    for (var i = 0; i < 4; i++) {
+                        var ox = (Math.random() - 0.5) * size * 2;
+                        var oy = (Math.random() - 0.5) * size * 2;
+                        ctx.fillStyle = palette2[Math.floor(Math.random() * palette2.length)];
+                        ctx.beginPath();
+                        ctx.arc(p.x + ox, p.y + oy, Math.random() * 1.8 + 0.6, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                function draw(p) {
+                    var size = parseInt(sizeInput.value, 10);
+                    var mode = isMakeup ? document.getElementById('makeupMode').value : 'solid';
+                    if (mode === 'glitter') {
+                        sparkle(p, size);
+                    } else {
+                        ctx.strokeStyle = isMakeup ? hexToRgba(color, 0.5) : color;
+                        ctx.lineWidth = size;
+                        ctx.beginPath();
+                        ctx.moveTo(last.x, last.y);
+                        ctx.lineTo(p.x, p.y);
+                        ctx.stroke();
+                    }
+                    last = p;
+                }
+
+                canvas.addEventListener('pointerdown', function (e) {
+                    e.preventDefault();
+                    drawing = true;
+                    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+                    last = pos(e);
+                    draw({ x: last.x + 0.01, y: last.y + 0.01 });
+                });
+                canvas.addEventListener('pointermove', function (e) {
+                    if (!drawing) return;
+                    e.preventDefault();
+                    draw(pos(e));
+                });
+                function stop() { drawing = false; last = null; }
+                canvas.addEventListener('pointerup', stop);
+                canvas.addEventListener('pointercancel', stop);
+                canvas.addEventListener('pointerleave', stop);
+
+                return {
+                    init: function () {
+                        if (!ready) {
+                            fit();
+                            ready = true;
+                        }
+                    }
+                };
+            }
+
+            var art = createPaint('artCanvas', 'artPalette', 'artBrushSize',
+                ['#ff75a0', '#00f2fe', '#b388ff', '#ffa84c', '#ffffff', '#ffd600', '#69f0ae', '#ff5252'], false);
+            var makeup = createPaint('makeupCanvas', 'makeupPalette', 'makeupBrushSize',
+                ['#e91e63', '#ff5252', '#9c27b0', '#3f51b5', '#00bcd4', '#4caf50', '#ffc107', '#795548'], true);
+
+            /* ---------- Confetti ---------- */
+            var bg = document.getElementById('bgCanvas');
+            var bctx = bg.getContext('2d');
+            var pieces = [];
+            var raf = null;
+
+            function sizeBg() {
+                bg.width = window.innerWidth;
+                bg.height = window.innerHeight;
+            }
+            sizeBg();
+            window.addEventListener('resize', sizeBg);
+
+            function startConfetti() {
+                stopConfetti();
+                var cols = ['#ff75a0', '#00f2fe', '#b388ff', '#ffa84c', '#ffd600', '#69f0ae'];
+                pieces = [];
+                for (var i = 0; i < 140; i++) {
+                    pieces.push({
+                        x: Math.random() * bg.width,
+                        y: Math.random() * -bg.height,
+                        r: Math.random() * 6 + 3,
+                        vy: Math.random() * 2.5 + 1.5,
+                        vx: (Math.random() - 0.5) * 1.5,
+                        c: cols[Math.floor(Math.random() * cols.length)]
+                    });
+                }
+                (function loop() {
+                    bctx.clearRect(0, 0, bg.width, bg.height);
+                    pieces.forEach(function (p) {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.y > bg.height) { p.y = -10; p.x = Math.random() * bg.width; }
+                        bctx.fillStyle = p.c;
+                        bctx.fillRect(p.x, p.y, p.r, p.r * 1.4);
+                    });
+                    raf = requestAnimationFrame(loop);
+                })();
+            }
+
+            function stopConfetti() {
+                if (raf) cancelAnimationFrame(raf);
+                raf = null;
+                bctx.clearRect(0, 0, bg.width, bg.height);
+            }
+
+            updateNav();
+        })();
+    </script>
+</body>
+</html>
